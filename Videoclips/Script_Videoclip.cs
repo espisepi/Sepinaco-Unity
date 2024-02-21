@@ -14,7 +14,7 @@ public class Script_Videoclip : MonoBehaviour
     // MiNombreProyecto/Assets/StreamingAssets/Sepinaco/Videoclips/DELAOSSA - JUDAS (PROD. JMOODS).mp4
     // Ruta para poner aqui en el codigo:
     // Sepinaco/Videoclips/DELAOSSA - JUDAS (PROD. JMOODS).mp4
-    private string[] videoPaths = {
+    public string[] videoPaths = {
         "Sepinaco/Videoclips/DELAOSSA - JUDAS (PROD. JMOODS).mp4",
         "Sepinaco/Videoclips/Soto Asa y La Zowi - Smartphone   GALLERY SESSION.mp4"
     };
@@ -58,7 +58,7 @@ public class Script_Videoclip : MonoBehaviour
         // videoPlayer.SetTargetAudioSource(0, GetComponent<AudioSource>());
 
         // Establece el clip de video
-        SetVideoClip(videoPaths[1]);
+        SetVideoClip(videoPaths[0]);
 
         // Opcional: Reproducir automáticamente
         videoPlayer.Play();
