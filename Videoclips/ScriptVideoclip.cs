@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Video;
 
 
-public class Script_Videoclip : MonoBehaviour
+public class ScriptVideoclip : MonoBehaviour
 {
     public Material videoMaterial; // Asigna aquí el material del video
 
@@ -25,6 +25,7 @@ public class Script_Videoclip : MonoBehaviour
     {
         ReplaceSceneMaterials(videoMaterial);
         StartVideoPlayer();
+        InitializeVideoObjects();
     }
 
     void ReplaceSceneMaterials(Material newMaterial)
@@ -68,6 +69,61 @@ public class Script_Videoclip : MonoBehaviour
     {
         // https://docs.unity3d.com/Manual/StreamingAssets.html
         videoPlayer.url = System.IO.Path.Combine(Application.streamingAssetsPath, path);
+    }
+
+    void InitializeVideoObjects() {
+        MeshRenderer parentRenderer = GetComponent<MeshRenderer>();
+        MeshFilter parentFilter = GetComponent<MeshFilter>();
+        for (int i = 0; i < videoPaths.Length; i++)
+        {
+            // Crea un nuevo GameObject para cada video
+            GameObject videoObject = new GameObject(videoPaths[i]);
+            videoObject.transform.SetParent(transform); // Establece el GameObject padre
+            videoObject.transform.localPosition = Vector3.right * i * 2.0f; // Ajusta la posición relativa según sea necesario
+
+            // Copia los componentes de renderizado del padre al hijo
+            if (parentRenderer != null && parentFilter != null)
+            {
+                MeshRenderer childRenderer = videoObject.AddComponent<MeshRenderer>();
+                MeshFilter childFilter = videoObject.AddComponent<MeshFilter>();
+                childRenderer.material = parentRenderer.material;
+                childFilter.mesh = parentFilter.mesh;
+            }
+
+            // Añade un Collider para detectar colisiones
+            BoxCollider collider = videoObject.AddComponent<BoxCollider>();
+            collider.isTrigger = true; // Hacer el collider un trigger si quieres evitar físicas reales
+
+            // Añade el script de manejo de trigger a cada hijo
+            videoObject.AddComponent<ChildTriggerHandler>();
+
+            // Añade y configura el script VideoTrigger
+            // VideoTrigger trigger = videoObject.AddComponent<VideoTrigger>();
+            // trigger.videoPath = videoPaths[i];
+            // trigger.videoPlayer = videoPlayer;
+        }
+    }
+
+     // Esta función será llamada cuando ocurra una colisión con un trigger
+    private void OnTriggerEnter(Collider other)
+    {
+        // string urlVideo = other.name;
+        // SetVideoClip(urlVideo);
+        // Debug.Log("Colisiono con el objeto: " + urlVideo);
+        // VideoTrigger trigger = other.GetComponent<VideoTrigger>();
+        // if (trigger != null)
+        // {
+        //     trigger.PlayVideo();
+        // }
+    }
+
+    // Este método será llamado por los hijos cuando detecten una colisión
+    public void ChildCollided(GameObject child, Collider other)
+    {
+        Debug.Log(child.name + " colisionó con " + other.gameObject.name);
+        string urlVideo = child.name;
+        SetVideoClip(urlVideo);
+        // Aquí puedes añadir más lógica basada en la colisión
     }
 
     // Update is called once per frame

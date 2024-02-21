@@ -101,7 +101,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -156,3 +156,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   videoMaterial: {fileID: 2100000, guid: 349c285e631fe4f3ea5ba2c6d876e693, type: 2}
+  videoPaths:
+  - Sepinaco/Videoclips/DELAOSSA - JUDAS (PROD. JMOODS).mp4
+  - Sepinaco/Videoclips/Soto Asa y La Zowi - Smartphone   GALLERY SESSION.mp4
