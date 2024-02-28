@@ -1,0 +1,3 @@
+- Pulsar el el selector de shader justo debajo del Inspector
+- Elegir "Standard"
+- Guardar material (command + s)
