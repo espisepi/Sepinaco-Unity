@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 
+public enum ReplacementType
+{
+    Material,
+    Texture,
+}
+
 
 public class ScriptVideoclip : MonoBehaviour
 {
@@ -19,6 +25,8 @@ public class ScriptVideoclip : MonoBehaviour
         "Sepinaco/Videoclips/Soto Asa y La Zowi - Smartphone   GALLERY SESSION.mp4"
     };
 
+    public ReplacementType replacementType = ReplacementType.Material;
+
     private VideoPlayer videoPlayer;
 
     void Start()
@@ -30,16 +38,48 @@ public class ScriptVideoclip : MonoBehaviour
 
     void ReplaceSceneMaterials(Material newMaterial)
     {
+        switch (replacementType)
+        {
+            case ReplacementType.Material:
+                SetMaterial(newMaterial);
+            break;
+            case ReplacementType.Texture:
+                SetMainTexture(newMaterial);
+                break;
+            default:
+                Debug.Log("replacementType Not Found :(");
+            break;
+        }
+    }
+
+    void SetMainTexture(Material newMaterial) {
+        
         Renderer[] renderers = FindObjectsOfType<Renderer>(); // Encuentra todos los objetos con componente Renderer en la escena
+        
         foreach (Renderer renderer in renderers)
         {
+            renderer.material.mainTexture = newMaterial.mainTexture;
+        }
+
+    }
+
+    void SetMaterial(Material newMaterial) {
+
+        Renderer[] renderers = FindObjectsOfType<Renderer>(); // Encuentra todos los objetos con componente Renderer en la escena
+        
+        foreach (Renderer renderer in renderers)
+        {
+            // Descomentar codigo de abajo para sustituir el material directamente
             Material[] mats = new Material[renderer.sharedMaterials.Length];
+
             for (int i = 0; i < mats.Length; i++)
             {
                 mats[i] = newMaterial; // Reemplaza cada material por el material de video
             }
+
             renderer.sharedMaterials = mats; // Asigna el nuevo arreglo de materiales al renderer
         }
+
     }
 
     void StartVideoPlayer() {
