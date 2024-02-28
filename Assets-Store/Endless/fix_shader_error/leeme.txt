@@ -1,0 +1,3 @@
+- Pulsar el boton de + en active target
+- Elegir "Built in"
+- Guardar shader (command + s)
