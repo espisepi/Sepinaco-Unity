@@ -27,7 +27,12 @@ public class ScriptVideoclip : MonoBehaviour
 
     public ReplacementType replacementType = ReplacementType.Material;
 
+    // For performance reasons: isUpdateReplacing = false
+    public bool isUpdateReplacing = true;
+
     private VideoPlayer videoPlayer;
+
+    private int numObjectsRenderer = 0;
 
     void Start()
     {
@@ -61,6 +66,9 @@ public class ScriptVideoclip : MonoBehaviour
             renderer.material.mainTexture = videoMaterial.mainTexture;
         }
 
+        // update variable numObjectsRenderer
+        numObjectsRenderer = renderers.Length;
+
     }
 
     void SetMaterial() {
@@ -79,6 +87,9 @@ public class ScriptVideoclip : MonoBehaviour
 
             renderer.sharedMaterials = mats; // Asigna el nuevo arreglo de materiales al renderer
         }
+
+        // update variable numObjectsRenderer
+        numObjectsRenderer = renderers.Length;
 
     }
 
@@ -169,7 +180,12 @@ public class ScriptVideoclip : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(isUpdateReplacing) {
+            Renderer[] renderers = FindObjectsOfType<Renderer>(); // Encuentra todos los objetos con componente Renderer en la escena
+            if(numObjectsRenderer != renderers.Length) {
+                ReplaceSceneMaterials();
+            }
+        }
     }
 }
 
