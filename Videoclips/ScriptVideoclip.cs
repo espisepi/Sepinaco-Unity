@@ -31,20 +31,20 @@ public class ScriptVideoclip : MonoBehaviour
 
     void Start()
     {
-        ReplaceSceneMaterials(videoMaterial);
+        ReplaceSceneMaterials();
         StartVideoPlayer();
         InitializeVideoObjects();
     }
 
-    void ReplaceSceneMaterials(Material newMaterial)
+    void ReplaceSceneMaterials()
     {
         switch (replacementType)
         {
             case ReplacementType.Material:
-                SetMaterial(newMaterial);
+                SetMaterial();
             break;
             case ReplacementType.Texture:
-                SetMainTexture(newMaterial);
+                SetMainTexture();
                 break;
             default:
                 Debug.Log("replacementType Not Found :(");
@@ -52,18 +52,18 @@ public class ScriptVideoclip : MonoBehaviour
         }
     }
 
-    void SetMainTexture(Material newMaterial) {
+    void SetMainTexture() {
         
         Renderer[] renderers = FindObjectsOfType<Renderer>(); // Encuentra todos los objetos con componente Renderer en la escena
         
         foreach (Renderer renderer in renderers)
         {
-            renderer.material.mainTexture = newMaterial.mainTexture;
+            renderer.material.mainTexture = videoMaterial.mainTexture;
         }
 
     }
 
-    void SetMaterial(Material newMaterial) {
+    void SetMaterial() {
 
         Renderer[] renderers = FindObjectsOfType<Renderer>(); // Encuentra todos los objetos con componente Renderer en la escena
         
@@ -74,7 +74,7 @@ public class ScriptVideoclip : MonoBehaviour
 
             for (int i = 0; i < mats.Length; i++)
             {
-                mats[i] = newMaterial; // Reemplaza cada material por el material de video
+                mats[i] = videoMaterial; // Reemplaza cada material por el material de video
             }
 
             renderer.sharedMaterials = mats; // Asigna el nuevo arreglo de materiales al renderer
